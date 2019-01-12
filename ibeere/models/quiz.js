@@ -10,8 +10,9 @@ class quiz{
 
     * _sub(){
         while(this.hasnext()){
-            //this currently runs infinitely, remove modulus to return to normal
-            let index = (this.curr%this.size).toString();
+            //this runs infinitely, remove modulus to return to normal
+            // let index = (this.curr%this.size).toString();
+            let index = (this.curr).toString();//normal version
             let toyield = this.frontend.quiz[index];
             toyield.index = this.curr;
             this.curr++;
@@ -24,8 +25,8 @@ class quiz{
     }
 
     hasnext(){
-        // return this.curr < this.size;
-        return true; // disable this and uncomment the previous line to return to normal behaviour
+        return this.curr < this.size;
+        // return true; // disable this and uncomment the previous line to return to normal behaviour
     }
 
     isCorrect(index, answer){

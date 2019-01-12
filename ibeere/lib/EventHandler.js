@@ -18,7 +18,7 @@ class EventHandler{
 
     //handlers
     handleNewConnection(socket){
-        this.unicast(socket, e.awaitquestion , this.envelope(""));
+        this.unicast(socket, e.awaitquestion , this.envelope("wait"));
     }
 
 
@@ -26,14 +26,13 @@ class EventHandler{
         let nextquestion = this.quiz.next();
         nextquestion.done ?
             this.broadcast(e.questionsterminated, this.envelope("")) :
-            this.broadcast(e.question, this.quiz.next());
+            this.broadcast(e.question, nextquestion);
     }
 
 
     handleCheckAnswer(socket, data){
         data = this.objectify(data);
         let iscorrect = this.quiz.isCorrect(data.index, data.answer);
-        console.log(iscorrect);
         this.unicast(socket, e.answerresult, this.envelope(iscorrect));
     }
 

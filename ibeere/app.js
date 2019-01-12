@@ -16,7 +16,7 @@ app.get('/', (req, res) =>{
 
 app.get('/next', (req, res) => {
     EventHandler.broadcastNextQuestion();
-    res.send('next question has been broadcast ');
+    res.end('next question has been broadcast ');
 });
 
 app.get('/reveal', (req, res)=> {
