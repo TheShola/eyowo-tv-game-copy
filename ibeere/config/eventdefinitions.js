@@ -11,5 +11,8 @@ module.exports.awaitquestion = 'awaitquestion';
 module.exports.questionsterminated ='questionsterminated';
 
 module.exports.checkanswer = 'checkanswer';
-module.exports.answerresult = 'answerresult';
+module.exports.answercorrect = 'answercorrect';
+module.exports.answerwrong = 'answerwrong';
+
+
 module.exports.revealanswer = 'revealanswer';

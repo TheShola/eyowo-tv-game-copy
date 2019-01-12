@@ -26,14 +26,16 @@ class EventHandler{
         let nextquestion = this.quiz.next();
         nextquestion.done ?
             this.broadcast(e.questionsterminated, this.envelope("")) :
-            this.broadcast(e.question, nextquestion);
+            this.broadcast(e.question, this.envelope(nextquestion));
     }
 
 
     handleCheckAnswer(socket, data){
         data = this.objectify(data);
         let iscorrect = this.quiz.isCorrect(data.index, data.answer);
-        this.unicast(socket, e.answerresult, this.envelope(iscorrect));
+        iscorrect?
+        this.unicast(socket, e.answercorrect, this.envelope(iscorrect)):
+        this.unicast(socket, e.answerwrong, this.envelope(iscorrect));
     }
 
 
