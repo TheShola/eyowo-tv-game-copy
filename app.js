@@ -35,7 +35,7 @@ app.get('*', function(req, res){
 
 
 
-http.listen(3456, () => {
+http.listen(config.port, () => {
     console.log('listening on port '+ config.port);
 });
 
