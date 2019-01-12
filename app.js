@@ -4,7 +4,8 @@ let app = require('express')(),
     EventHandler = new (require('./lib/EventHandler.js'))(io),
     config = require('./config/config.js');
 
-app.get('/favicon.ico', (req, res) => res.status(204));
+
+app.get('/favicon.ico', (req, res) => res.status(204).send('1'));
 
 
 
@@ -14,6 +15,7 @@ app.get('/', (req, res) =>{
         <script>
             var socket = io();
         </script
+        <p> welcome to the eyowotv api</p>
     `)
 });
 
