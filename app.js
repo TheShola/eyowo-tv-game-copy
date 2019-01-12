@@ -15,15 +15,16 @@ app.get('/', (req, res) =>{
         <script>
             var socket = io();
         </script
-        <p> welcome to the eyowotv api</p>
+        <p> welcome to the eyowotv api   <a href="/next"> click to broadcast a question</a></p>
     `)
 });
 
 
-app.get('/next', (req, res) => {
+app.get('/next', (req, res) =>{ 
     EventHandler.broadcastNextQuestion();
-    res.end('next question has been broadcast ');
+    res.end('<p> a question has been broadcast <a href="/next">click to broadcast the next question</a> </p>');
 });
+
 
 app.get('/reveal', (req, res)=> {
 
