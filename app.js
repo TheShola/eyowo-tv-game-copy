@@ -4,6 +4,10 @@ let app = require('express')(),
     EventHandler = new (require('./lib/EventHandler.js'))(io),
     config = require('./config/config.js');
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
+
+
 app.get('/', (req, res) =>{
     res.send(`
         <script src="/socket.io/socket.io.js"></script>
