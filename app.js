@@ -27,6 +27,13 @@ app.get('/reveal', (req, res)=> {
 
 });
 
+app.get('*', function(req, res){
+  res.send('Wild monkeys have stolen this route. Try another!', 404);
+});
+
+
+
 http.listen(3456, () => {
     console.log('listening on port '+ config.port);
 });
+
