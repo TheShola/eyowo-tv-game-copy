@@ -14,6 +14,7 @@ class routes{
         // "this" changes within the callback... it might make more sense to proimisify it for
         // readability, but this should work for now
 
+
         this.router = (require('express')).Router();
         this.router.post(routestrings.auth, (req, res, next) => this.auth(req, res, eh));
         this.router.use((req, res, next) => this.middleware(req, res, next, eh));
@@ -46,9 +47,7 @@ class routes{
         authenticated = req.body.code ==password;
         res.redirect(routestrings.root);
     }
-
     logout(req, res, eh){
-        console.log('logging out')
         authenticated = false;
         quiz.restart();
         res.redirect(routestrings.root);

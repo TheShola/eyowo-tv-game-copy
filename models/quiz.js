@@ -8,6 +8,8 @@ class quiz{
         this.curr = -1;
     }
 
+
+
     * _sub(){
         while(this.hasnext()){
             //this runs infinitely, remove modulus to return to normal
@@ -23,6 +25,11 @@ class quiz{
     next(){
         return this._sub().next();
     }
+
+    isstarted(){
+        return this.curr != -1;
+    }
+
 
     hasnext(){
         return this.curr < this.size-1;// comment this and uncomment this for infinite behaviour
