@@ -50,6 +50,7 @@ class routes{
     logout(req, res, eh){
         console.log('logging out')
         authenticated = false;
+        quiz.restart();
         res.redirect(routestrings.root);
     }
 

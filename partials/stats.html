@@ -5,12 +5,12 @@
 
     socket.on('update',(data)=>{
         var sc = $("#statscontainer").empty().append(data);
-        //sc.removeChild(sc.firstChild) ;
-        //<!-- while (sc.firstChild) sc.removeChild(sc.firstChild); -->
-       
-        //sc.append(data);
         console.log(data);
     });
+
+    window.onbeforeunload = () => {
+        console.log('about to destroy connection');
+    };
 </script>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
