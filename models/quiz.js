@@ -5,17 +5,17 @@ class quiz{
         this.frontend = sq.frontend;
         this.backend = sq.backend;
         this.size = this.backend.length;
-        this.curr = 0;
+        this.curr = -1;
     }
 
     * _sub(){
         while(this.hasnext()){
             //this runs infinitely, remove modulus to return to normal
-            let index = (this.curr%this.size).toString();
-            // let index = (this.curr).toString();//normal version
+            // let index = (this.curr%this.size).toString();
+            this.curr++;
+            let index = (this.curr).toString();//normal version
             let toyield = this.frontend.quiz[index];
             toyield.index = this.curr;
-            this.curr++;
             yield toyield;
         }
     }
@@ -25,15 +25,32 @@ class quiz{
     }
 
     hasnext(){
-        // return this.curr < this.size;// comment this and uncomment this for infinite behaviour
-        return true; // disable this and uncomment the previous line to return to normal behaviour
+        return this.curr < this.size-1;// comment this and uncomment this for infinite behaviour
+        // return true; // disable this and uncomment the previous line to return to normal behaviour
     }
 
     isCorrect(index, answer){
         return this.backend.quiz[index].correct == answer;
     }
 
+    restart(){
+        this.curr = -1;
+    }
+
+    getCurrentQuestion(){
+        let toreturn =  this.backend.quiz[this.curr];
+        if(typeof toreturn !== 'undefined'){
+            toreturn.index = this.curr;
+            return toreturn;
+        } else{
+            return {
+                "index" : "-1",
+                "text"  : "",
+                "correct" : "na"
+            }
+        }
+    }
 }
 
-module.exports = quiz;
+module.exports = new quiz();
 

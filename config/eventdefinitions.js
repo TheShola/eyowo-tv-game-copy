@@ -1,9 +1,7 @@
 module.exports.connection = 'connection';
 module.exports.disconnect = 'disconnect';
 
-
 module.exports.haslost = 'haslost';
-
 
 
 module.exports.question = 'question';
@@ -16,3 +14,8 @@ module.exports.answerwrong = 'answerwrong';
 
 
 module.exports.revealanswer = 'revealanswer';
+
+
+module.exports.ping = 'ping';
+module.exports.pong = 'pong';
+
