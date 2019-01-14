@@ -50,6 +50,7 @@ class routes{
     logout(req, res, eh){
         authenticated = false;
         quiz.restart();
+        eh.endgame();
         res.redirect(routestrings.root);
     }
 

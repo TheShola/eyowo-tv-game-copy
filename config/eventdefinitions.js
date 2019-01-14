@@ -19,3 +19,5 @@ module.exports.revealanswer = 'revealanswer';
 module.exports.ping = 'ping';
 module.exports.pong = 'pong';
 
+
+module.exports.endgame = 'endgame';
