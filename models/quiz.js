@@ -44,6 +44,18 @@ class quiz{
         this.curr = -1;
     }
 
+    getquestionat(index){
+        return this.backend.quiz[index];
+    }
+
+    getCurrentQuestionBackend(){
+        return JSON.stringify( this.backend.quiz[this.curr] , null, 2);
+    }
+
+    getNextQuestionBackend(){
+     return JSON.stringify( this.backend.quiz[this.curr+1] , null, 2);
+    }
+
     getCurrentQuestion(){
         let toreturn =  this.backend.quiz[this.curr];
         if(typeof toreturn !== 'undefined'){
