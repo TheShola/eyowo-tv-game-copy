@@ -35,7 +35,7 @@ let loaduser = require('./user.js').load,
     objectify = (string) => {return JSON.parse(string)},
     envelope = (payload) => {return JSON.stringify({ 'msg' : payload })},
     deenvelope = (payload)=> { return JSON.parse(payload[1]) },
-    epochlength = 20,
+    epochlength = 60,
     ispayoutquestion = (index) => ((index + 2) % 5) == 0;
 
 
