@@ -1,26 +1,33 @@
-let pin = "1234",
+let userspace="user:",
     userlist = {},
-    load = (user) =>{
+    clearusers = () =>{
+        userlist = {};
+    },
+    load = async(user, gid) =>{
         //replace with redis interaction
         let u = userlist[user];
         if(!!u) return u;
         u = new User(user);
         userlist[user]= u;
         return u;
-       },
-    clearusers = () =>{
-        userlist = {};
-    };
+    },
+    login = require('./eyowoservice.js').login,
+    purchase = require('./eyowoservice.js').purchase,
+    payout = require('./eyowoservice.js').payout,
+    print = (tp) => console.log("USER : " + tp);
+
+
 class User{
     constructor(phone){
         this.load(phone);
     }
 
-    load(phone){
+    async load(phone){
         //in memory for now but this is where we interact with redis
+        print("loading current status from database");
         this.phone = phone;
         this.deathEpochs = [];
-        this.lifePurchaseEpochs = [];
+        this.lifePurchaseEpochs = {};
         this.timeoutepochs = [];
         this.correctepochs = [];
         this.eyowoToken = "";
@@ -33,8 +40,9 @@ class User{
         this.payouts = {};
     };
 
-    update(){
+    async update(){
         //this is where we make any changes and then save to redis
+        print("Saving changes to database");
     };
 
     incrscore(delta){
@@ -42,99 +50,99 @@ class User{
         else this.score+=delta;
     }
 
-    login(password){
-        this.eyowoToken = "****";
-        //this.authorized will be set based on interaction with the eyowo API. We'll sort the details later
-        this.authorised = password==pin;
-        return this.authresponse();
+    async login(password){
+        print(`logging in ${this.phone} with ${this.password}`);
+        // let loginresponse = await login(this.phone, password);
+        let [authstatus, reason, token] = await login(this.phone, password);
+        this.authorised = authstatus;
+        this.token = token;
+        await this.update();
+        return [authstatus, reason, token];
     };
 
-    authresponse(){
-        return { "authorised" : this.authorised, "token" : this.gettoken() };
-    };
-
-    gettoken(){
-        if(!!this.token) return this.token;
-        else if( this.authorised ) return this.generateToken();
-        return null;
-    };
-
-    didattemptongoing(){
+    async didattemptongoing(){
         this.attemptedOngoing = true;
+        await this.update();
     };
 
-    didrespondcorrectly(i, delta){
+    async didrespondcorrectly(i, delta){
         this.correctepochs.push[i];
         this.incrscore(delta);
-    }
+        await this.update();
+    };
 
-    didfailquestion(index){
+    async didfailquestion(index){
         this.isAlive = false;
         this.limbo = true;
         this.deathEpochs.push(index);
+        await this.update();
     };
 
-    didtimeout(i){
+    async didtimeout(i){
         this.timeoutepochs.push(i);
         this.isAlive = false;
         this.limbo = false;
+        await this.update();
     }
 
-    didwinpayout(i, amount){
+    async didwinpayout(i, amount){
+        await payout(this.phone, this.token, amount);
         this.payouts[i] = amount;
+        await this.update();
     }
 
-    didpurchaselife(index){
-        this.lifePurchaseEpochs.push(index);
-        this.isAlive = true;
-        this.limbo = false;
+    async didpurchaselife(index, amount){
+        let [success, reason] = await purchase(this.phone, this.token, amount);
+        if(success){
+            this.lifePurchaseEpochs[index] = amount;
+            this.isAlive = true;
+            this.limbo = false;
+            await this.update();
+        } else{
+            print(reason);
+        }
     };
 
-    finalkill(index){
+    async finalkill(index){
         this.deathEpochs.push(index);
         this.isAlive = false;
         this.limbo = false;
-    };
-
-
-    generateToken(){
-        //write code to generate random token
-        return '*****';
+        await this.update();
     };
 
     //info
-    status(){
+    async status(){
         if(this.isAlive && !this.limbo) return "Alive";
         else if(!this.isAlive && this.limbo) return "Pending";
         else if(this.isAlive && this.limbo) return "Pending";
         else return "Dead";
     }
 
-    isDead(){
+    async isDead(){
         return this.status() == "Dead";
     }
 
-    isPending(){
+    async isPending(){
         return this.status == "Pending";
     }
 
-    isAlive(){
+    async isAlive(){
         return this.status =="Alive";
     }
 
-    finalDeathIndex(){
+    async finalDeathIndex(){
         return this.isAlive ? -1 : this.lifePurchaseEpochs[ this.lifePurchaseEpochs.length -1];
     };
 
-    hasPurchasedLife(){
+    async hasPurchasedLife(){
         return this.lifePurchaseEpochs.length != 0;
     };
 
-    numLivesPurchased(){
+    async numLivesPurchased(){
         return this.lifePurchaseEpochs.length;
     };
 
-    numDeaths(){
+    async numDeaths(){
        return this.deathEpochs.length;
     };
 }
