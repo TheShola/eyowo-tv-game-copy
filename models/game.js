@@ -259,7 +259,10 @@ class Game{
         print("the requesting client is a ", clienttype);
         print("the current user is", user);
 
-        if(this.clock.isRunning() && index == this.quiz.curr ){
+        print("is the clock running?", this.clock.isRunning());
+        print("is this the right index?", index == this.quiz.curr);
+
+        if(this.clock.isRunning() && (index == this.quiz.curr)){
             print("the request arrived in time");
             let purchase = await user.didpurchaselife(index, lifecost);
 
