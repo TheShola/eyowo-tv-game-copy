@@ -24,7 +24,7 @@ let loaduser = require('./user.js').load,
         socket.emit(event, envelope(message));
     },
     unicastToNamespace = (namespace, socket, event, message) => {
-        print(`unicasting  ${event} to client ${socket.id} via ${namespace.name}`);
+        print(`unicasting  ${event} with  ${message} to client ${socket.id} via ${namespace.name}`);
         print("new destination id of client", convertnsp(namespace, socket));
         namespace.to(convertnsp(namespace, socket)).emit(event, envelope(message));
     },
