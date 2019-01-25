@@ -17,14 +17,15 @@ module.exports.ping = 'ping';
 module.exports.pong = 'pong';
 module.exports.hasstarted = "hasstarted";
 
+module.exports.victory ='victory';
+module.exports.lock = 'lock';
+module.exports.endgame = 'endgame';
+module.exports.answercorrect = 'answercorrect';
+module.exports.networktimedout = 'networktimedout';
+module.exports.haslost = 'haslost';
+module.exports.lifetimedout = 'lifetimedout';
+module.exports.hasboughtlife="hasboughtlife";
+
 //update messages
 let updateprefix = "update:";
-module.exports.victory =updateprefix+'victory';
 module.exports.advert = updateprefix+'advert';
-module.exports.lock = updateprefix+'lock';
-module.exports.endgame = updateprefix+'endgame';
-module.exports.answercorrect = updateprefix+'answercorrect';
-module.exports.networktimedout = updateprefix+'networktimedout';
-module.exports.haslost = updateprefix+'haslost';
-module.exports.lifetimedout = updateprefix+'lifetimedout';
-module.exports.hasboughtlife=updateprefix+"hasboughtlife";
