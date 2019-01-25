@@ -232,7 +232,9 @@ class Game{
                 } else{
                     print("client was wrong, but can be revivied");
                     await user.didfailquestion(question.index);
-                    this.unicastBuyALife(socket, question.index);
+
+                    this.unicastBuyALife(socket, { "index" : question.index, "amount" : lifecost });
+                    // this.unicastBuyALife(socket, question.index);
                 }
             }
 
