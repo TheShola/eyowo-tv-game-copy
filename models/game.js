@@ -211,7 +211,7 @@ class Game{
 
             if(iscorrect){
                 print("client provided the correct answer");
-                await user.didrespondcorrectly();//check that the user was actually saved
+                await user.didrespondcorrectly(question.index, question.index+1);//check that the user was actually saved
 
                 if(ispayoutquestion(question.index)){
                     print("The client has won a payout");
@@ -276,7 +276,7 @@ class Game{
 
         if(index == this.quiz.curr && this.clock.isRunning() && !ispayoutquestion(index)){
             print("user didn't answer in time but can be revived");
-            this.unicastBuyALife(socket, index);
+            this.unicastBuyALife(socket, { "index" : index, "amount" : lifecost });
         }else if( ispayoutquestion(index)){
             print("user did not answer in time on a payout question. They lose automatically");
             user.finalkill(index);
@@ -386,9 +386,9 @@ class Game{
         unicastToNamespace(this.viewupdates, socket, e.loggedin, message);
     };
 
-    unicastBuyALife(socket, index){
-        unicastToNamespace(this.viewupdates, socket, e.buylife, index);
-        unicastToNamespace(this.infoupdates, socket, e.buylife, index);
+    unicastBuyALife(socket, message){
+        unicastToNamespace(this.viewupdates, socket, e.buylife, message);
+        unicastToNamespace(this.infoupdates, socket, e.buylife, message);
     }
 
     unicastIsCorrect(socket){
