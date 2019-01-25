@@ -35,12 +35,14 @@ let loaduser = require('./user.js').load,
     objectify = (string) => {return JSON.parse(string)},
     envelope = (payload) => {return JSON.stringify({ 'msg' : payload })},
     deenvelope = (payload)=> { return JSON.parse(payload[1]) },
-    epochlength = 20,//60
+    epochlength = 60,//60
     isprepayoutquestion = (index) => ((index + 2) % 5) == 0,
     ispayoutquestion = (index) => ((index+1) % 5) == 0,
     lifecost = 500,
     payout = 500,
-    adinterval = 5000;
+    adinterval = 5000,
+    gamekey = "game",
+    db = require('./redis-async.js');
 
 
 class Game{
@@ -58,6 +60,10 @@ class Game{
         this.quiz = require('./quiz.js');
         this.clock = new(require('./gameclock.js'))(this.quiz.size, epochlength);
         this.started = false;
+        this.id;
+        console.log(db);
+        db.generateId(gamekey).then( (id) =>{ this.id = id; console.log(this )} );
+
         // this.adverttimer= setInterval(() =>{
         //     this.broadcastAdverts();
         // },adinterval);

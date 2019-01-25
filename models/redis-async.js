@@ -10,10 +10,6 @@ let redis = require('redis'),
     hset = promisify(client.hset).bind(client),
     rpush = promisify(client.rpush).bind(client),
     hincrby = promisify(client.hincrby).bind(client),
-
-
-
-
     generateId =  async (key)=>{
     let id;
     try{
@@ -42,6 +38,8 @@ let redis = require('redis'),
         }
         return res;
     },
+    getId = getObj,
+
     getObjField = async (key, field)=>{
         let res;
         try{
@@ -97,4 +95,4 @@ let redis = require('redis'),
         return res;
     };
 
-module.exports = {incrObjField, append, has, setObjField, getObjField, setObj, getObj, getId }
+module.exports = { generateId, incrObjField, append, has, setObjField, getObjField, setObj, getObj, getId }

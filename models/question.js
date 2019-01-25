@@ -1,6 +1,6 @@
 let questionidkey = "questionid",
-    questionnamespace = "question:";
-const {promisify} = require('util');
+    questionnamespace = "question:",
+    db = require('./redis-async.js');
 
 
 class Question{
@@ -11,7 +11,10 @@ class Question{
 
     async add( text, responses correct){
         //validations on input should be run here
+        let id =  questionnamespace + await db.getId(questionidkey);
+
         
+
     };
 
     async get(){
