@@ -1,5 +1,5 @@
 let redis = require('redis'),
-    client = redis.createClient(),
+    client = redis.createClient(process.env.REDIS_URL),
     {promisify} = require('util'),
     get = promisify(client.get).bind(client),
     exists = promisify(client.exists).bind(client),
