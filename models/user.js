@@ -3,12 +3,22 @@ let userspace="user:",
     clearusers = () =>{
         userlist = {};
     },
+    db = require('./redis-async.js'),
     load = async(user, gid) =>{
         //replace with redis interaction
-        let u = userlist[user];
-        if(!!u) return u;
-        u = new User(user);
-        userlist[user]= u;
+        if ( ! await db.has( userspace+user )){
+            await db.setObj(userspace+user, {
+                "phone" : user
+            });
+        };
+
+        let u;
+        if( await db.objHas(gid,userspace+user)){
+            u = User.prototype.load( gid, userspace+user);
+        } else{
+            u = new User(user, gid);
+        }
+
         return u;
     },
     login = require('./eyowoservice.js').login,
@@ -18,13 +28,9 @@ let userspace="user:",
 
 
 class User{
-    constructor(phone){
-        this.load(phone);
-    }
-
-    async load(phone){
-        //in memory for now but this is where we interact with redis
-        print("loading current status from database");
+    constructor(phone, gid){
+        print("instantiating new user");
+        this.gid = gid;
         this.phone = phone;
         this.deathEpochs = [];
         this.lifePurchaseEpochs = {};
@@ -38,25 +44,45 @@ class User{
         this.score = 0;
         this.token;
         this.payouts = {};
+        this.update();
+    }
+
+    async load(gid, key){
+        // this.update();
+        print(`loading ${key} from the db for ${gid}`);
+        let user = await db.getObjField(gid, key);
+        print(`loaded ${user} from db`);
+        let ob = JSON.parse(user);
+        for( let k in ob) this[k] = ob[k];
+        return this;
     };
 
     async update(){
         //this is where we make any changes and then save to redis
         print("Saving changes to database");
+        await db.setObjField(this.gid, userspace+this.phone, this.__repr());
     };
 
+  __repr() {
+    let toret = Object.getOwnPropertyNames(this).reduce((a, b) => {
+      a[b] = this[b];
+      return a;
+    }, {});
+      return JSON.stringify(toret);
+  }
     incrscore(delta){
         if(delta ==undefined) this.score++;
         else this.score+=delta;
     }
 
     async login(password){
-        print(`logging in ${this.phone} with ${this.password}`);
+        print(`logging in ${this.phone} with ${password}`);
         // let loginresponse = await login(this.phone, password);
         let [authstatus, reason, token] = await login(this.phone, password);
         this.authorised = authstatus;
         this.token = token;
         await this.update();
+        print(this.__repr);
         return [authstatus, reason, token];
     };
 
@@ -66,7 +92,9 @@ class User{
     };
 
     async didrespondcorrectly(i, delta){
-        this.correctepochs.push[i];
+        console.log(i, delta);
+        this.correctepochs.push(i);
+        console.log(this.correctepochs)
         this.incrscore(delta);
         await this.update();
     };

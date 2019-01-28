@@ -4,12 +4,14 @@ let redis = require('redis'),
     get = promisify(client.get).bind(client),
     exists = promisify(client.exists).bind(client),
     incr = promisify(client.incr).bind(client),
-    hmget = promisify(client.hmget).bind(client),
+    hgetall = promisify(client.hgetall).bind(client),
     hmset = promisify(client.hmset).bind(client),
     hget = promisify(client.hget).bind(client),
     hset = promisify(client.hset).bind(client),
     rpush = promisify(client.rpush).bind(client),
     hincrby = promisify(client.hincrby).bind(client),
+    hexists = promisify(client.hexists).bind(client);
+
     generateId =  async (key)=>{
     let id;
     try{
@@ -19,8 +21,17 @@ let redis = require('redis'),
     }
     return id;
     },
-
+    objHas = async(key, field) => {
+        let res;
+        try{
+            res = await hexists(key,field);
+        } catch(e){
+            console.log(e);
+        }
+        return res;
+    },
     setObj = async(key, obj)=>{
+        console.log(key, obj);
         let res;
         try{
             res = await hmset(key, obj);
@@ -32,7 +43,7 @@ let redis = require('redis'),
     getObj = async (key)=>{
         let res;
         try{
-            res = await  hmget(key);
+            res = await  hgetall(key);
         } catch(e) {
             console.log(e);
         }
@@ -95,4 +106,4 @@ let redis = require('redis'),
         return res;
     };
 
-module.exports = { generateId, incrObjField, append, has, setObjField, getObjField, setObj, getObj, getId }
+module.exports = { generateId, incrObjField, append, has, setObjField, getObjField, setObj, getObj, getId, objHas }

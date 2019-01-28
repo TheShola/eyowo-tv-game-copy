@@ -42,6 +42,8 @@ let loaduser = require('./user.js').load,
     payout = 500,
     adinterval = 5000,
     gamekey = "game",
+    gamenamespace = gamekey+":",
+    generateGameKey = (i) => {return gamenamespace+i},
     db = require('./redis-async.js');
 
 
@@ -61,13 +63,21 @@ class Game{
         this.clock = new(require('./gameclock.js'))(this.quiz.size, epochlength);
         this.started = false;
         this.id;
-        console.log(db);
-        db.generateId(gamekey).then( (id) =>{ this.id = id; console.log(this )} );
-
-        // this.adverttimer= setInterval(() =>{
-        //     this.broadcastAdverts();
-        // },adinterval);
+        this.setGameId();
+        // setInterval( (game, socket) => { game.broadcastAdverts(socket) }, 5000,this);
     };
+
+    setGameId(){
+        print("setting game id");
+        db.generateId(gamekey).then( (id) =>{ 
+            this.id = generateGameKey(id);
+            db.setObj( this.id , { 
+                "lifecost" : lifecost,
+                "payout"  : payout,
+                "id" : this.id
+            });
+        } );
+    }
 
     listenforallevents(){
         print("now listening for all events");
@@ -114,7 +124,7 @@ class Game{
         if(event == e.login){
             next();
         }else{
-            let user = await loaduser(contents.user);
+            let user = await loaduser(contents.user, this.id);
             print("the current user is ", user);
             contents.user = user;
 
@@ -149,6 +159,10 @@ class Game{
     };
 
     //statistics
+    //
+    async getStats(){
+        return await db.getObj(this.id);
+    }
     getpayout(){
         return "500";
     };
@@ -169,7 +183,7 @@ class Game{
         //instantiate user and add to user array
         print("the requesting client is a ", clienttype);
         print('logging in user: ', data.msg);
-        let user = await loaduser(data.msg.user),
+        let user = await loaduser(data.msg.user,this.id),
         [authorised , reason ,token] = await user.login(data.msg.pin);
         console.log(authorised, reason, token);
 
@@ -356,6 +370,7 @@ class Game{
         this.clock = new(require('./gameclock.js'))(this.quiz.size, epochlength);
         this.started = false;
         clearusers();
+        this.setGameId();
         this.endgame();
     }
 

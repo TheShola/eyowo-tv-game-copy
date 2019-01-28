@@ -20,7 +20,7 @@ let accept =["2348033021938", "2348055025977", "2348034086111"],
     login = async(username, pin, price) =>{
         let correctuser = accept.includes(username);
         let correctpin = pin==pass;
-
+        print(username , pin);
         if(correctuser & correctpin){
             print("eyowo account exists");
             let [hasbalance, message] = await checkbalance(username, pin, price);
@@ -32,6 +32,7 @@ let accept =["2348033021938", "2348055025977", "2348034086111"],
             }
         }else{
             print("log in failed");
+            print( authfail[boolint(correctpin)]);
             return [false, authfail[boolint(correctpin)] , ""];
         }
     },
