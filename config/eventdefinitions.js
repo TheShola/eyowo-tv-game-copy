@@ -16,6 +16,9 @@ module.exports.revealanswer = 'revealanswer';
 module.exports.ping = 'ping';
 module.exports.pong = 'pong';
 module.exports.hasstarted = "hasstarted";
+module.exports.register = 'register';
+module.exports.requirespin = 'requirespin';
+module.exports.pinresults = 'pinresults';
 
 module.exports.victory ='victory';
 module.exports.lock = 'lock';

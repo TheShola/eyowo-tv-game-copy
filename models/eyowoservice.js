@@ -1,4 +1,5 @@
-let accept =["2348033021938", "2348055025977", "2348034086111"],
+let accept =["2348033021938", "2348055025977", "2348034086111","2349095801772"],
+    ownnumber = accept[3],
     authfail = ["you do not have an eyowo account", "your passcode was wrong"],
     balancefail = ["insufficient funds","user has sufficient balance for purchase"],
     purchasefail = ["transaction failed", "transaction succeeded"],
@@ -8,50 +9,45 @@ let accept =["2348033021938", "2348055025977", "2348034086111"],
     randbool = () => {return Math.random() >= 0.5},
     boolint = (bool) =>{return bool? 1 : 0},
     print = (tp) => console.log("EYOWO SERVICE: " + tp),
-
-    checkbalance = async(username, token, price) =>{
-        print(` checking if ${username} has sufficient balance`);
-        let hasbalance = true,//randbool(),
-            message = balancefail[boolint(hasbalance)];
-        print(message);
-        return[hasbalance, message];
-    },
-
-    login = async(username, pin, price) =>{
-        let correctuser = accept.includes(username);
-        let correctpin = pin==pass;
-        print(username , pin);
-        if(correctuser & correctpin){
-            print("eyowo account exists");
-            let [hasbalance, message] = await checkbalance(username, pin, price);
-            if(hasbalance){
-                print("logged in successfully");
-                return [true, ok ,token]; //true and the token
-            }else{
-                return[hasbalance, message,"" ];
-            }
-        }else{
-            print("log in failed");
-            print( authfail[boolint(correctpin)]);
-            return [false, authfail[boolint(correctpin)] , ""];
+    appKey = "3c4a30ba96bb315e836f7d6b6d726ffa",
+    appSecret = "50e4e28db9e1dfba526d3cb28ddd9ff62b5f14705d63c629680914be961e1d81",
+    environment = 'staging',
+    ownToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNGZiYTkyOWVmMjAxMzc4Yzc5ZjFiMyIsIm1vYmlsZSI6IjIzNDcwMzM4OTk3NzUiLCJpYXQiOjE1NDg3Mjg5NzgsImV4cCI6MTU0ODgxNTM3OH0.ZcvqcC4tHCpeF4aLj8h0XlthdrxAsI7pvXO3DA7vZDc",
+    factor = 'sms',
+    client =  new ((require('../lib/eyowo.js').Client))({appKey, appSecret, environment}),
+    exists = async(mobile) =>{
+        try{
+            let exists = await client.Auth.validateUser({mobile});
+            return exists.success;
+        } catch(e){
+            print(e);
         }
     },
-
-    purchase = async(username, token, amount) => {
-        print(`${username} would like to purchase a life at ${amount}`);
-        let [hasbalance, message] = await checkbalance(username, token, amount);
-        if(hasbalance){
-            let success = true;
-            print( `${success ? "success" : "failure" }`);
-            return [success, purchasefail[boolint(success)]];
-        }
-        else{
-            return[hasbalance, message];
-        }
+    checkbalance = async(mobile, accessToken) =>{
+        print(` checking the balance of ${mobile}`);
+        let toret = await client.Users.getBalance( {mobile, accessToken});
+        if(toret.error ==undefined) return toret.data.user.balance/100;
+        else return -1;
+    },
+    sendToken = async(mobile) =>{
+        let response = await client.Auth.authenticateUser({mobile, factor});
+        return response.success;
+    },
+    login = async(mobile, passcode, price) =>{
+            let authresponse = await client.Auth.authenticateUser({mobile, factor, passcode});
+            return authresponse;
     },
 
-    payout = async(username, token, amount)=> {
-        print(`Payment of ${amount} has been made to ${username}`);
+    purchase = async(token, amount) => {
+        print(`would like to purchase a life at ${amount}`);
+        let response = await client.Users.transferToPhone({ "mobile" :ownnumber, "accessToken" : token, "amount" : amount});
+        return response;
+    },
+
+    payout = async(mobile, amount)=> {
+        print(`Payment of ${amount} has been made to ${mobile}`);
+        let response = await client.Users.transferToPhone({mobile, "accessToken" : ownToken , amount});
+        return response;
     };
 
-module.exports = {login, purchase, payout};
+module.exports = {login, purchase, payout, exists, sendToken, checkbalance};

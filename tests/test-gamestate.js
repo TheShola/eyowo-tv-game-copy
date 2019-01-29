@@ -1,5 +1,5 @@
 let port = (require('../config/config.js')).port,
-    url = 'http://localhost:'+port,
+    url = 'http://localhost:'+"9898",
     server = require('http').Server(),
     ioServer = (require('socket.io'))(server),
     game = new (require('../models/game.js'))(ioServer),

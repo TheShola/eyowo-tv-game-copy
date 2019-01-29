@@ -1,7 +1,7 @@
 class quiz{
     constructor(){
         // this.client = (require('redis')).createClient();
-        let sq = require('../sq.json');
+        let sq = require('../sq2.json');
         this.frontend = sq.frontend;
         this.backend = sq.backend;
         this.size = this.backend.length;

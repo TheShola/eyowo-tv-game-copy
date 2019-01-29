@@ -1,6 +1,7 @@
 let loaduser = require('./user.js').load,
     util = require('util'),
     clearusers = require('./user.js').clearusers,
+    register = require('./user.js').register,
     e = require('../config/eventdefinitions.js'),
     m = require('../config/msgdefinitions.js'),
     debug = true,
@@ -69,9 +70,9 @@ class Game{
 
     setGameId(){
         print("setting game id");
-        db.generateId(gamekey).then( (id) =>{ 
+        db.generateId(gamekey).then( (id) =>{
             this.id = generateGameKey(id);
-            db.setObj( this.id , { 
+            db.setObj( this.id , {
                 "lifecost" : lifecost,
                 "payout"  : payout,
                 "id" : this.id
@@ -92,11 +93,13 @@ class Game{
             print("info socket connected");
             socket.use((packet, next) => this.infomiddleware(socket, packet, next));
             socket.on(e.login , data => this.handlelogin(socket, data, socketclient));
+            socket.on(e.register , data => this.handleregister(socket, data, socketclient));
             socket.on(e.declareself, data => this.handledeclareself(socket, data, socketclient));
             socket.on(e.checkanswer, data => this.handlecheckanswer(socket, data, socketclient));
             socket.on(e.buylife, data => this.handlebuylife(socket, data, socketclient));
             socket.on(e.questiontimedout, data => this.handlequestiontimeout(socket, data, socketclient));
             socket.on(e.lifetimedout, data => this.handlelifetimeout(socket, data, socketclient));
+            socket.on(e.pinresults, data => this.handlepinresults(socket, data, socketclient));
         });
     };
 
@@ -121,10 +124,15 @@ class Game{
         print('information channel middleware is processing event ' + event);
         print("packet contents ", contents);
 
-        if(event == e.login){
+        if(event == e.register){
+            next();
+        }
+        else if(event == e.login){
             next();
         }else{
-            let user = await loaduser(contents.user, this.id);
+            let [wasloaded, user] = await loaduser(contents.user, this.id);
+
+            print("the user was loaded successfully", wasloaded)
             print("the current user is ", user);
             contents.user = user;
 
@@ -178,26 +186,66 @@ class Game{
         print('handle ping');
     };
 
+    async handleregister(socket, data, clienttype){
+        let {user, pin} = data.msg;
+        print("handling registration for user");
+        print("username is ", user);
+        print("password is ", pin );
+
+        await register(user, pin);
+
+        // if else to check status of logged in and lock client based on failure to register
+        this.handlelogin(socket, data, clienttype);
+
+    }
+
+
     //general event handlers
     async handlelogin(socket, data, clienttype){
         //instantiate user and add to user array
         print("the requesting client is a ", clienttype);
         print('logging in user: ', data.msg);
-        let user = await loaduser(data.msg.user,this.id),
-        [authorised , reason ,token] = await user.login(data.msg.pin);
-        console.log(authorised, reason, token);
+        let [wasloaded, user] = await loaduser(data.msg.user,this.id);
+        let [authorised , reason ,requirespin] = await user.login(data.msg.pin);
+        console.log(authorised, reason, requirespin);
 
         if(!authorised) {
             print('user was not logged in');
             print("locking view socket for user:",user);
             this.unicastLockViewSocket(socket);
+            this.unicastLoginResponse( socket, {authorised, reason, requirespin});
         }else{
             print('user was logged in');
-            print("unlocking view socket for user:",user);
-            this.unicastUnlockViewSocket(socket);
+            if(!requirespin){
+                print("unlocking view socket for user:",user);
+                this.unicastUnlockViewSocket(socket);
+                this.unicastLoginResponse( socket, {authorised, reason, requirespin});
+            } else{
+                print("user must authenticate Eyowo");
+                this.unicastUnlockViewSocket(socket);
+                this.unicastRequiresPin(socket, reason);
+            }
         }
-        this.unicastLoginResponse( socket, {authorised, reason, token});
     };
+
+    async handlepinresults(socket, data, clienttype){
+        print("this is the received data", data);
+        let pin = data.msg,
+            user = data.user;
+
+        let results = await user.authEyowo(pin);
+        results = results[0];
+        console.log(results);
+        if(results.success){
+            unicastToNamespace(this.view,socket, e.declareself, "" );
+        } else{
+            this.unicastRequiresPin(socket, "The user pin was wrong");
+            user.sendToken();
+        }
+
+    }
+
+
 
     handledeclareself(socket, data, clienttype){
         let user = data.user;
@@ -210,7 +258,6 @@ class Game{
             print('client is attempting to join an ongoing game, reject client');
             user.didattemptongoing();
             this.unicastGameHasStarted(socket);
-
         }
     };
 
@@ -235,7 +282,7 @@ class Game{
 
                 if(ispayoutquestion(question.index)){
                     print("The client has won a payout");
-                    user.didwinpayout(question.index, this.getpayout());//check that the payout was actually made, not doing this yet
+                    user.didwinpayout(question.index, 50000);//check that the payout was actually made, not doing this yet
 
                     this.unicastVictory(socket, this.getpayout());
                 }else{
@@ -254,7 +301,6 @@ class Game{
                     await user.didfailquestion(question.index);
 
                     this.unicastBuyALife(socket, { "index" : question.index, "amount" : lifecost });
-                    // this.unicastBuyALife(socket, question.index);
                 }
             }
 
@@ -278,7 +324,7 @@ class Game{
 
         if(this.clock.isRunning() && (index == this.quiz.curr)){
             print("the request arrived in time");
-            let purchase = await user.didpurchaselife(index, lifecost);
+            let purchase = await user.didpurchaselife(index, 50000);
 
             print(purchase);
             this.unicastHasBoughtLife(socket, "Your purchase was successful");
@@ -392,6 +438,11 @@ class Game{
         //setInterval( (game, socket) =>{
         //       game.unicastAwaitQuestion(socket);
         //}, 3000, this, socket);
+    }
+
+    unicastRequiresPin(socket, message){
+        unicastToNamespace(this.viewupdates, socket, e.requirespin, message);
+        unicastToNamespace(this.infoupdates, socket, e.requirespin, message);
     }
 
 

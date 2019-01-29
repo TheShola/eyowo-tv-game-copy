@@ -113,6 +113,13 @@ view.on(e.question, (data) =>{
 
 //TestRunner.add() test answer question correctl
 
+TestRunner.add("test that registration works correctly",
+    () =>{
+        infosend(e.register, {"username" : "08034086111", "pin" : "1234"}); 
+    };
+);
+
+
 // setTimeout(()=>{TestRunner.run()},1000);
 
 

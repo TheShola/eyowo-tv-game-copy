@@ -1,0 +1,674 @@
+{
+  "backend": {
+    "id": "827eda91-049a-4f22-ad18-f77b05d824c0",
+    "length": 15,
+    "quiz": {
+      "0": {
+        "correct": "C",
+        "id": "1fb74751-c3e6-4074-9b3d-0a1f826ccecd",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Nigerian Militant Wing"
+          },
+          {
+            "option": "B",
+            "value": "Nigerian Political Party"
+          },
+          {
+            "option": "C",
+            "value": "Nigerian Language"
+          },
+          {
+            "option": "D",
+            "value": "Nigerian People"
+          }
+        ],
+        "text": "Hausa is a "
+      },
+      "1": {
+        "correct": "A",
+        "id": "748d44bb-619a-47a8-9e65-6f7626db30f0",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Senate"
+          },
+          {
+            "option": "B",
+            "value": "House of Reps"
+          },
+          {
+            "option": "C",
+            "value": "House of Commons"
+          },
+          {
+            "option": "D",
+            "value": "Secreteriat"
+          }
+        ],
+        "text": "Which is the 'Upper House' of the Nigerian National Assembly ?"
+      },
+      "2": {
+        "correct": "C",
+        "id": "0a042377-5ae5-49fa-9995-4d700bb0ee85",
+        "responses": [
+          {
+            "option": "A",
+            "value": "107"
+          },
+          {
+            "option": "B",
+            "value": "108"
+          },
+          {
+            "option": "C",
+            "value": "109"
+          },
+          {
+            "option": "D",
+            "value": "105"
+          }
+        ],
+        "text": "Nigerian Senate comprises of how many senators ?"
+      },
+      "3": {
+        "correct": "C",
+        "id": "b0cc55f4-2a12-4871-b9a1-ec74aa686883",
+        "responses": [
+          {
+            "option": "A",
+            "value": "312"
+          },
+          {
+            "option": "B",
+            "value": "350"
+          },
+          {
+            "option": "C",
+            "value": "360"
+          },
+          {
+            "option": "D",
+            "value": "370"
+          }
+        ],
+        "text": "The House of Representatives of Nigeria has elected how many members in 2015"
+      },
+      "4": {
+        "correct": "D",
+        "id": "0df79b48-a326-4981-859d-b78124b9af17",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Action Group"
+          },
+          {
+            "option": "B",
+            "value": "All Nigerians Party"
+          },
+          {
+            "option": "C",
+            "value": "People's Democratic Party"
+          },
+          {
+            "option": "D",
+            "value": "All Progressive Party"
+          }
+        ],
+        "text": "Name the political party of Nigeria currently in power"
+      },
+      "5": {
+        "correct": "B",
+        "id": "b8ca4146-ed77-49bf-bb24-68d77b67256b",
+        "responses": [
+          {
+            "option": "A",
+            "value": "\nHigh Court of Nigeria"
+          },
+          {
+            "option": "B",
+            "value": "Supreme Court of Nigeria"
+          },
+          {
+            "option": "C",
+            "value": "Appeal Court of Nigeria"
+          },
+          {
+            "option": "D",
+            "value": "Highest Court of Nigeria"
+          }
+        ],
+        "text": "Name the Highest Court of Nigeria"
+      },
+      "6": {
+        "correct": "C",
+        "id": "8776523f-7a74-4045-8b7a-134b8f0199cc",
+        "responses": [
+          {
+            "option": "A",
+            "value": "19"
+          },
+          {
+            "option": "B",
+            "value": "20"
+          },
+          {
+            "option": "C",
+            "value": "21"
+          },
+          {
+            "option": "D",
+            "value": "17"
+          }
+        ],
+        "text": "What can be the maximum number of judges of Nigerian Supreme Court"
+      },
+      "7": {
+        "correct": "A",
+        "id": "eeffdabc-333c-49c4-91e0-31822d1efb64",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Wole Soyinka"
+          },
+          {
+            "option": "B",
+            "value": "Chris Abani"
+          },
+          {
+            "option": "C",
+            "value": "Flora Nwapa"
+          },
+          {
+            "option": "D",
+            "value": "Tomi Amao"
+          }
+        ],
+        "text": "Who was the first African Noble Laureate ?"
+      },
+      "8": {
+        "correct": "D",
+        "id": "6aab9e5d-fc49-4ceb-af5b-7376df643f84",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Pidgin"
+          },
+          {
+            "option": "B",
+            "value": "Creole"
+          },
+          {
+            "option": "C",
+            "value": "Yoruba"
+          },
+          {
+            "option": "D",
+            "value": "English"
+          }
+        ],
+        "text": "What is Nigeria's official language?"
+      },
+      "9": {
+        "correct": "C",
+        "id": "6ba2c726-9e20-4889-8e3a-c9091de2cb59",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Airline"
+          },
+          {
+            "option": "B",
+            "value": "Magazine"
+          },
+          {
+            "option": "C",
+            "value": "Television"
+          },
+          {
+            "option": "D",
+            "value": "Pension Fund"
+          }
+        ],
+        "text": "Galaxy is Nigeria's first commercial/private (and remains in the 2000s a leading)"
+      },
+      "10": {
+        "correct": "B",
+        "id": "117898dc-7579-42a1-9a9b-119440c4155e",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Souvenirs"
+          },
+          {
+            "option": "B",
+            "value": "Food"
+          },
+          {
+            "option": "C",
+            "value": "Celebrities"
+          },
+          {
+            "option": "D",
+            "value": "Dances"
+          }
+        ],
+        "text": "Suya, Puff Puff, and Moin Moin (or Moyi-Moyi) are well-known Nigerian"
+      },
+      "11": {
+        "correct": "D",
+        "id": "e2a73733-83bd-483f-ab2b-a78b5215a5f4",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Dollars"
+          },
+          {
+            "option": "B",
+            "value": "Eyowo"
+          },
+          {
+            "option": "C",
+            "value": "Franc"
+          },
+          {
+            "option": "D",
+            "value": "Pound shillings"
+          }
+        ],
+        "text": "Nigeria's currency the Naira (divided into 100 kobos) in 1973 replaced:"
+      },
+      "12": {
+        "correct": "D",
+        "id": "d2eff659-9893-4d17-95fb-3e8af63baf8e",
+        "responses": [
+          {
+            "option": "A",
+            "value": "44"
+          },
+          {
+            "option": "B",
+            "value": "345"
+          },
+          {
+            "option": "C",
+            "value": "243"
+          },
+          {
+            "option": "D",
+            "value": "234"
+          }
+        ],
+        "text": "Nigeria's international telephone country code is"
+      },
+      "13": {
+        "correct": "C",
+        "id": "854e1aed-4bdf-4e75-b163-307cff345535",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Book"
+          },
+          {
+            "option": "B",
+            "value": "Local Govt. "
+          },
+          {
+            "option": "C",
+            "value": "Civilization "
+          },
+          {
+            "option": "D",
+            "value": "Weapon"
+          }
+        ],
+        "text": "At 12,000 years old, the Nok of Nigeria is West Africa's oldest known"
+      },
+      "14": {
+        "correct": "A",
+        "id": "d51a910b-e501-45ba-8b18-d0d8411fa99a",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Pastors "
+          },
+          {
+            "option": "B",
+            "value": "Rappers"
+          },
+          {
+            "option": "C",
+            "value": "Film star"
+          },
+          {
+            "option": "D",
+            "value": "Rich men"
+          }
+        ],
+        "text": "Enoch Adeboye, TB Joshua, David Oyedepo, Chris Oyakhilome, and Mathew Ashimolowo are famous Nigerian"
+      }
+    }
+  },
+  "frontend": {
+    "id": "827eda91-049a-4f22-ad18-f77b05d824c0",
+    "length": 15,
+    "quiz": {
+      "0": {
+        "id": "1fb74751-c3e6-4074-9b3d-0a1f826ccecd",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Nigerian Militant Wing"
+          },
+          {
+            "option": "B",
+            "value": "Nigerian Political Party"
+          },
+          {
+            "option": "C",
+            "value": "Nigerian Language"
+          },
+          {
+            "option": "D",
+            "value": "Nigerian People"
+          }
+        ]
+      },
+      "1": {
+        "id": "748d44bb-619a-47a8-9e65-6f7626db30f0",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Senate"
+          },
+          {
+            "option": "B",
+            "value": "House of Reps"
+          },
+          {
+            "option": "C",
+            "value": "House of Commons"
+          },
+          {
+            "option": "D",
+            "value": "Secreteriat"
+          }
+        ]
+      },
+      "2": {
+        "id": "0a042377-5ae5-49fa-9995-4d700bb0ee85",
+        "responses": [
+          {
+            "option": "A",
+            "value": "107"
+          },
+          {
+            "option": "B",
+            "value": "108"
+          },
+          {
+            "option": "C",
+            "value": "109"
+          },
+          {
+            "option": "D",
+            "value": "105"
+          }
+        ]
+      },
+      "3": {
+        "id": "b0cc55f4-2a12-4871-b9a1-ec74aa686883",
+        "responses": [
+          {
+            "option": "A",
+            "value": "312"
+          },
+          {
+            "option": "B",
+            "value": "350"
+          },
+          {
+            "option": "C",
+            "value": "360"
+          },
+          {
+            "option": "D",
+            "value": "370"
+          }
+        ]
+      },
+      "4": {
+        "id": "0df79b48-a326-4981-859d-b78124b9af17",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Action Group"
+          },
+          {
+            "option": "B",
+            "value": "All Nigerians Party"
+          },
+          {
+            "option": "C",
+            "value": "People's Democratic Party"
+          },
+          {
+            "option": "D",
+            "value": "All Progressive Party"
+          }
+        ]
+      },
+      "5": {
+        "id": "b8ca4146-ed77-49bf-bb24-68d77b67256b",
+        "responses": [
+          {
+            "option": "A",
+            "value": "\nHigh Court of Nigeria"
+          },
+          {
+            "option": "B",
+            "value": "Supreme Court of Nigeria"
+          },
+          {
+            "option": "C",
+            "value": "Appeal Court of Nigeria"
+          },
+          {
+            "option": "D",
+            "value": "Highest Court of Nigeria"
+          }
+        ]
+      },
+      "6": {
+        "id": "8776523f-7a74-4045-8b7a-134b8f0199cc",
+        "responses": [
+          {
+            "option": "A",
+            "value": "19"
+          },
+          {
+            "option": "B",
+            "value": "20"
+          },
+          {
+            "option": "C",
+            "value": "21"
+          },
+          {
+            "option": "D",
+            "value": "17"
+          }
+        ]
+      },
+      "7": {
+        "id": "eeffdabc-333c-49c4-91e0-31822d1efb64",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Wole Soyinka"
+          },
+          {
+            "option": "B",
+            "value": "Chris Abani"
+          },
+          {
+            "option": "C",
+            "value": "Flora Nwapa"
+          },
+          {
+            "option": "D",
+            "value": "Tomi Amao"
+          }
+        ]
+      },
+      "8": {
+        "id": "6aab9e5d-fc49-4ceb-af5b-7376df643f84",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Pidgin"
+          },
+          {
+            "option": "B",
+            "value": "Creole"
+          },
+          {
+            "option": "C",
+            "value": "Yoruba"
+          },
+          {
+            "option": "D",
+            "value": "English"
+          }
+        ]
+      },
+      "9": {
+        "id": "6ba2c726-9e20-4889-8e3a-c9091de2cb59",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Airline"
+          },
+          {
+            "option": "B",
+            "value": "Magazine"
+          },
+          {
+            "option": "C",
+            "value": "Television"
+          },
+          {
+            "option": "D",
+            "value": "Pension Fund"
+          }
+        ]
+      },
+      "10": {
+        "id": "117898dc-7579-42a1-9a9b-119440c4155e",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Souvenirs"
+          },
+          {
+            "option": "B",
+            "value": "Food"
+          },
+          {
+            "option": "C",
+            "value": "Celebrities"
+          },
+          {
+            "option": "D",
+            "value": "Dances"
+          }
+        ]
+      },
+      "11": {
+        "id": "e2a73733-83bd-483f-ab2b-a78b5215a5f4",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Dollars"
+          },
+          {
+            "option": "B",
+            "value": "Eyowo"
+          },
+          {
+            "option": "C",
+            "value": "Franc"
+          },
+          {
+            "option": "D",
+            "value": "Pound shillings"
+          }
+        ]
+      },
+      "12": {
+        "id": "d2eff659-9893-4d17-95fb-3e8af63baf8e",
+        "responses": [
+          {
+            "option": "A",
+            "value": "44"
+          },
+          {
+            "option": "B",
+            "value": "345"
+          },
+          {
+            "option": "C",
+            "value": "243"
+          },
+          {
+            "option": "D",
+            "value": "234"
+          }
+        ]
+      },
+      "13": {
+        "id": "854e1aed-4bdf-4e75-b163-307cff345535",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Book"
+          },
+          {
+            "option": "B",
+            "value": "Local Govt. "
+          },
+          {
+            "option": "C",
+            "value": "Civilization "
+          },
+          {
+            "option": "D",
+            "value": "Weapon"
+          }
+        ]
+      },
+      "14": {
+        "id": "d51a910b-e501-45ba-8b18-d0d8411fa99a",
+        "responses": [
+          {
+            "option": "A",
+            "value": "Pastors "
+          },
+          {
+            "option": "B",
+            "value": "Rappers"
+          },
+          {
+            "option": "C",
+            "value": "Film star"
+          },
+          {
+            "option": "D",
+            "value": "Rich men"
+          }
+        ]
+      }
+    }
+  }
+}
