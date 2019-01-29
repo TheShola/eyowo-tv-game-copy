@@ -237,7 +237,7 @@ class Game{
         results = results[0];
         console.log(results);
         if(results.success){
-            unicastToNamespace(this.view,socket, e.declareself, "" );
+            unicastToNamespace(this.viewupdates,socket, e.declareself, "" );
         } else{
             this.unicastRequiresPin(socket, "The user pin was wrong");
             user.sendToken();
