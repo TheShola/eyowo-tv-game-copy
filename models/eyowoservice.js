@@ -50,4 +50,4 @@ let accept =["2348033021938", "2348055025977", "2348034086111","2349095801772"],
         return response;
     };
 
-module.exports = {login, purchase, payout, exists, sendToken, checkbalance};
+module.exports = { login, purchase, payout, exists, sendToken, checkbalance};
