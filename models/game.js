@@ -36,11 +36,11 @@ let loaduser = require('./user.js').load,
     objectify = (string) => {return JSON.parse(string)},
     envelope = (payload) => {return JSON.stringify({ 'msg' : payload })},
     deenvelope = (payload)=> { return JSON.parse(payload[1]) },
-    epochlength = 60,//60
+    epochlength = 10,//60
     isprepayoutquestion = (index) => ((index + 2) % 5) == 0,
     ispayoutquestion = (index) => ((index+1) % 5) == 0,
-    lifecost = 500,
-    payout = 500,
+    lifecost = 10000,
+    payout = 50000,
     adinterval = 5000,
     gamekey = "game",
     gamenamespace = gamekey+":",
@@ -92,8 +92,8 @@ class Game{
         this.infoupdates.on(e.connection, socket=>{
             print("info socket connected");
             socket.use((packet, next) => this.infomiddleware(socket, packet, next));
-            socket.on(e.login , data => this.handlelogin(socket, data, socketclient));
-            socket.on(e.register , data => this.handleregister(socket, data, socketclient));
+            // socket.on(e.login , data => this.handlelogin(socket, data, socketclient));
+            // socket.on(e.register , data => this.handleregister(socket, data, socketclient));
             socket.on(e.declareself, data => this.handledeclareself(socket, data, socketclient));
             socket.on(e.checkanswer, data => this.handlecheckanswer(socket, data, socketclient));
             socket.on(e.buylife, data => this.handlebuylife(socket, data, socketclient));
@@ -124,13 +124,14 @@ class Game{
         print('information channel middleware is processing event ' + event);
         print("packet contents ", contents);
 
-        if(event == e.register){
-            next();
-        }
-        else if(event == e.login){
-            next();
-        }else{
+        // if(event == e.register){
+        //     next();
+        // }
+        // else if(event == e.login){
+        //     next();
+        //}else{
             let [wasloaded, user] = await loaduser(contents.user, this.id);
+
 
             print("the user was loaded successfully", wasloaded)
             print("the current user is ", user);
@@ -141,10 +142,10 @@ class Game{
                 this.unicastGameHasStarted(socket);
             }
 
-            else if(!user.authorised){
-                print('client has not been authorised, reject client');
-                this.unicastLockViewSocket(socket);
-            }
+            // else if(!user.authorised){
+            //     print('client has not been authorised, reject client');
+            //     this.unicastLockViewSocket(socket);
+            // }
 
             else if(user.status() == "Dead"){
                 print('client who has lost is attempting to reconnect');
@@ -155,7 +156,7 @@ class Game{
                 print("has passed all exceptions, passing to specfic handler")
                 next();
             }
-        }
+        //}
         // if(this.clock.isRunning) next();
         //in the else case, unicast the network timed out message
     };
@@ -182,7 +183,7 @@ class Game{
         print('handle disconnect');
     };
 
-    handleping(socket, ping){
+    handleping(socket, ping){ 
         print('handle ping');
     };
 
@@ -275,6 +276,7 @@ class Game{
         if(question.index == this.quiz.curr && this.clock.isRunning()){
             print("the answer arrived in time");
             let iscorrect = this.quiz.isCorrect(question.index, question.answer);
+            //let iscorrect = question.answer; 
 
             if(iscorrect){
                 print("client provided the correct answer");
@@ -282,7 +284,7 @@ class Game{
 
                 if(ispayoutquestion(question.index)){
                     print("The client has won a payout");
-                    user.didwinpayout(question.index, 50000);//check that the payout was actually made, not doing this yet
+                    user.didwinpayout(question.index, payout);//check that the payout was actually made, not doing this yet
 
                     this.unicastVictory(socket, this.getpayout());
                 }else{
@@ -324,7 +326,7 @@ class Game{
 
         if(this.clock.isRunning() && (index == this.quiz.curr)){
             print("the request arrived in time");
-            let purchase = await user.didpurchaselife(index, 50000);
+            let purchase = await user.didpurchaselife(index, lifecost);
 
             print(purchase);
             this.unicastHasBoughtLife(socket, "Your purchase was successful");
@@ -370,6 +372,7 @@ class Game{
         this.unicastNetworkTimeoout(socket);
     };
 
+
     //admin router response functions
     broadcastNextQuestion(){
         if(!this.clock.isRunning() && this.started){
@@ -391,6 +394,18 @@ class Game{
             print("Still accepting responses to the last question");
         }
     };
+
+    //broadcast answer
+    broadcastAnswer(){
+        if(!this.clock.isRunning()){
+            let currentQuestion = this.quiz.getCurrentQuestionBackend() !== undefined ? JSON.parse(this.quiz.getCurrentQuestionBackend()) : "";
+            print("broadcasting answer " , currentQuestion.correct);
+            broadcast(this.infoupdates, e.broadcastanswer, currentQuestion.correct);
+            broadcast(this.viewupdates, e.broadcastanswer, currentQuestion.correct);
+
+        }
+        
+    }
 
     broadcastAdverts(){
         broadcast(this.viewupdates, e.advert, "advert");

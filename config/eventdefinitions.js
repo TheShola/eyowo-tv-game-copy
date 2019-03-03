@@ -28,6 +28,7 @@ module.exports.networktimedout = 'networktimedout';
 module.exports.haslost = 'haslost';
 module.exports.lifetimedout = 'lifetimedout';
 module.exports.hasboughtlife="hasboughtlife";
+module.exports.broadcastanswer="broadcastanswer";
 
 //update messages
 let updateprefix = "update:";

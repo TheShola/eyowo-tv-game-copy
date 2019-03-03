@@ -48,6 +48,7 @@ class routes{
         authenticated = req.body.code ==password;
         res.redirect(routestrings.root);
     }
+    
     logout(req, res, eh){
         authenticated = false;
         quiz.restart();

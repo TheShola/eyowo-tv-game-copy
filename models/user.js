@@ -6,7 +6,7 @@ let userspace="user:",
     db = require('./redis-async.js'),
     register = async(user, password)=>{
         let res;
-        if ( !await db.has( userspace+user )){
+        if ( await !db.has( userspace+user )){
                 res = await db.setObj(userspace+user, {
                     "phone" : user,
                     "password" : password
@@ -15,12 +15,16 @@ let userspace="user:",
         return res;
     },
     load = async(user, gid) => {
-        if(await db,has(userspace+user)){
+        print(`now loading ${userspace+user}`);     
+        if(await db.has(userspace+user)){
+            print("user exists in db");
             let u;
             if( await db.objHas(gid,userspace+user)){
                 u = await User.prototype.load( gid, userspace+user);
+                print(u.__repr());
             } else{
                 u = await new User(user, gid);
+                print(u.__repr());
                 let token = await getObjField(userspace+user, "accessToken");
 
                 u.token =token; 
@@ -29,6 +33,7 @@ let userspace="user:",
             }
             return [true,u];
         } else{
+            print("user does not exist in db");
             return [false, null];
         }
     },
@@ -86,6 +91,7 @@ class User{
     }, {});
       return JSON.stringify(toret);
   }
+
     incrscore(delta){
         if(delta ==undefined) this.score++;
         else this.score+=delta;
@@ -97,6 +103,7 @@ class User{
     }
 
     async login(password){
+        print(this.__repr());
         print(`logging in ${this.phone} with ${password}`);
         // let loginresponse = await login(this.phone, password);
         console.log(userspace+this.phone); 
