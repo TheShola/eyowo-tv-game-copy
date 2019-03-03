@@ -397,6 +397,7 @@ class Game{
 
     //broadcast answer
     broadcastAnswer(){
+        
         if(!this.clock.isRunning()){
             let currentQuestion = this.quiz.getCurrentQuestionBackend() !== undefined ? JSON.parse(this.quiz.getCurrentQuestionBackend()) : "";
             print("broadcasting answer " , currentQuestion.correct);
